@@ -1,0 +1,30 @@
+name: Backtest 📊
+
+on:
+  workflow_dispatch:
+
+jobs:
+  backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests pandas numpy
+
+      - name: Run Backtest
+        run: python backtest.py
+
+      - name: Upload results
+        uses: actions/upload-artifact@v4
+        with:
+          name: backtest-results
+          path: backtest_results.csv
